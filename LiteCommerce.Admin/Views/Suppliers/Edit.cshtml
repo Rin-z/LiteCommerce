@@ -1,0 +1,77 @@
+﻿
+@{
+  
+}
+<form  method="post" action="~/Suppliers/Save">
+    <div class="form-group">
+        <label>Tên Nhà Cung Cấp:</label>
+        <input type="text" class="form-control" id="SuppliersName" name="SuppliersName" autofocus>
+    </div>
+
+    <div class="form-group">
+        <label>Tên Giao Dịch:</label>
+        <input type="text" class="form-control" id="SuppliersContact" name="SuppliersContact">
+    </div>
+
+    <div class="form-group">
+        <label>Địa Chỉ:</label>
+        <input type="text" class="form-control" id="SuppliersAddress" name="SuppliersAddress">
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>Thành Phố:</label>
+                <select class="form-control" name="city" id="city">
+                    <option>Mặc Định</option>
+                    <option>Huế</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>Quốc Gia:</label>
+                <select class="form-control" name="city" id="city">
+                    <option>Mặc Định</option>
+                    <option>Việt Nam</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <label>Mã Bưu Chính:</label>
+        <input type="text" class="form-control" id="Postalcode" name="PostalCode">
+    </div>
+
+    <div class="form-group">
+        <label>Số Điện Thoại:</label>
+        <input type="text" class="form-control" id="Phone" name="Phone">
+    </div >
+
+    <div class="row">
+        <div class="col-lg-6">
+            
+            <button type="submit" class="btn btn-info">
+              
+                    <i class="fa fa-save"></i>
+                Lưu dữ liệu
+            </button>
+        </div>
+
+        <div class="col-lg-6 text-right">
+            <button class="btn btn-adn">
+                <a href="~/Suppliers/Index" style="color:#ffffff">
+                    <i class="fa fa-save"></i> Hủy
+                </a>
+            </button>
+        </div>
+
+    </div>
+
+</form>
+
+
+

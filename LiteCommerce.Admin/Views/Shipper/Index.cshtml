@@ -1,0 +1,109 @@
+﻿<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="~/Themes/mystyles/CSS/nhanvien.css">
+
+
+@{
+    ViewBag.Title = "Danh Sách Người Giao Hàng";
+}
+
+
+
+@*form để tìm kiêm*@
+<div class="container-fluid">
+    <form>
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Nhập tên cần tìm kiếm...">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit">
+                    <i class="glyphicon glyphicon-search"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+
+
+<div class="container-fluid">
+    <div class="text-left">
+        <p>Có tất <strong>10</strong> Nhân Viên Giao Hàng . Các bạn đang ở trang <strong>1</strong> trong <strong>1</strong>  trang.</p>
+    </div>
+    <table class="col-lg-9 table table-hover" width="650px">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên</th>
+                <th>Số Điện Thoại</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i <= 5; i++)
+            {
+                <tr>
+                    <td>1</td>
+                    <td>Speedy Express</td>
+                    <td>(503) 555-9831</td>
+                    <td class="text-right">
+                        <a href="~/Shipper/Edit/12" class="btn btn-info"><i class="fa fa-edit"></i></a>
+                        <a type="button" data-toggle="modal" data-target="#myModal" class="btn btn-danger"><i class="fa ion-android-delete"></i></a>
+                        @{ Html.RenderPartial("~/Views/Shipper/Delete.cshtml");}
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    <div class="col-lg-3">
+        <h4 class="text-center">Thông Tin Bổ sung</h4>
+        <form method="post" action="~/Shipper/Save">
+            <div class="column">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label>Tên:</label>
+                        <input type="text" class="form-control" id="ShipperName" name="ShipperName" placeholder="Nhập Tên Shipper">
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label>Số Điện Thoại:</label>
+                        <input type="text" class="form-control" id="ShipperPhone" name="ShipperPhone" placeholder="Nhập Số Điện Thoại Shipper">
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="col-lg-12 text-right" >
+          
+                    <a href="~/Shipper/Add" class="btn btn-primary" style="color:#fff"><i class="fa fa-plus"> </i> Thêm</a>
+
+
+         
+                    <button class="btn btn-adn text-right" type="submit">
+                        <i class="fa fa-save"> Lưu</i>
+                    </button>
+           
+            </div>
+        </form>
+    </div>
+    
+        
+    </div>
+
+
+
+
+</div>
+
+

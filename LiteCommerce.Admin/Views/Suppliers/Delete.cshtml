@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Xác Nhận Xóa";
+}
+
+
+
+<form class="form-horizontal" method="post" action="~/Suppliers/Delete/1234">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Tên nhà cung cấp: </label>
+        <div class="col-sm-10">
+            <p class="form-control-static">Nord-Ost-Fisch Handelsgesellschaft mbH</p>
+        </div>
+
+        <label class="col-sm-2 control-label">Tên giao dịch: </label>
+        <div class="col-sm-10">
+            <p class="form-control-static">Sven Petersen</p>
+        </div>
+        <label class="col-sm-2 control-label">Địa chi liên hệ: </label>
+        <div class="col-sm-10">
+            <p class="form-control-static">Frahmredder 112a</p>
+        </div>
+        <label class="col-sm-2 control-label">Quốc gia: </label>
+        <div class="col-sm-4">
+            <p class="form-control-static">Germany</p>
+        </div>
+        <label class="col-sm-2 control-label">Thành phố: </label>
+        <div class="col-sm-4">
+            <p class="form-control-static">Cuxhaven</p>
+        </div>
+        <label class="col-sm-2 control-label">Mã bưu chính: </label>
+        <div class="col-sm-4">
+            <p class="form-control-static">27478</p>
+        </div>
+        <label class="col-sm-2 control-label">Điện thoại: </label>
+        <div class="col-sm-4">
+            <p class="form-control-static">(04721) 8713</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-offset-2 col-sm-10">
+            <p class="text-danger" style="font-size: 18px">
+                Bạn có chắc chắn muốn xóa nhà cung cấp này?
+            </p>
+        </div>
+        <div class="col-lg-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-danger">
+                Đồng ý
+            </button>
+            <a href="~/Suppliers/Index" class="btn btn-info">
+                Hủy bỏ
+            </a>
+        </div>
+    </div>
+
+</form>
+
+
+
+
+
