@@ -1,0 +1,75 @@
+﻿@model LiteCommerce.DomainModels.ProductEX
+@{
+    ViewBag.Title = "Details";
+
+}
+
+<div class="box box-info">
+    
+    <div class="box-body">
+        <div class="box-header text-right">
+            <a href="~/Product">Back to List</a>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12 text-center">
+                <p><img style="width:100px;height:100px" class="img-circle" src="@Model.Photo" /></p>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="col-lg-6">
+                    <label class="col-sm-4 control-label">Sản Phẩm: </label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">@Model.ProductName</p>
+                    </div>
+
+                    <label class="col-sm-4 control-label">Giá: </label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">@Model.Price</p>
+                    </div>
+                    <label class="col-sm-4 control-label">Đơn Vị: </label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">@Model.Unit</p>
+                    </div>
+
+
+
+                    <label class="col-sm-4 control-label">Loại: </label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">@Model.CategoryID</p>
+                    </div>
+
+                 
+
+                    <label class="col-sm-4 control-label">Nhà Cung Cấp: </label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">@Model.SupplierID</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    @foreach (var item in Model.Attributes)
+                    {
+                        <label class="col-sm-4 control-label">@item.AttributeName: </label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static">@item.AttributeValue</p>
+                        </div>
+                    }
+                </div>
+
+                <div class="col-lg-12">
+                    @foreach (var item in Model.Galleries)
+                    {
+                        <label class="col-sm-6 control-label"><img style="width:100px;height:100px" src="@item.Photo" /> </label>
+                        <div class="col-sm-6">
+                            <p>@item.Description</p>
+                        </div>
+                    }
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

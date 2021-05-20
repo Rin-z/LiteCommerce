@@ -1,0 +1,57 @@
+﻿@model LiteCommerce.DomainModels.ProductGallery
+@{
+    
+}
+
+<div class="box box-primary">
+    <form role="form" action="~/Product/SaveGallery" method="post">
+        <div class="box-header text-right">
+            <a href="~/Product/Edit/@Model.ProductID">Back to List</a>
+        </div>
+        <div class="box-body">
+            <div class="form-group row">
+                <input type="hidden" name="GalleryID" value="@Model.GalleryID" />
+               
+                <div class="col-sm-6">
+                    <label>Photo: @Html.ValidationMessage("Photo", new { @class = "text-danger" })</label>
+                    <input type="text" class="form-control" name="Photo" value="@Model.Photo" placeholder="Enter Attribute Name">
+                </div>
+
+                <div class="col-sm-6">
+                    <label>DisplayOrder:</label>
+                    <input type="text" class="form-control" placeholder="DisplayOrder" name="DisplayOrder" value="@Model.DisplayOrder">
+                </div>
+
+
+                <div class="col-sm-12">
+                    <label>Description:</label>
+                    <input type="text" class="form-control" placeholder="Description" name="Description" value="@Model.Description">
+                </div>
+
+
+                <div class="col-sm-6">
+                    <label>IsHidden:</label>
+                    <input type="text" class="form-control" placeholder="IsHidden" name="IsHidden" value="@Model.IsHidden">
+                </div>
+
+                <div class="col-sm-6">
+                    @*<label>ProductID: @Html.ValidationMessage("Photo", new { @class = "text-danger" })</label>*@
+                    <input type="hidden" class="form-control" name="ProductID" value="@Model.ProductID" />
+                </div>
+
+
+            </div>
+
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <button type="submit" class="btn btn-sm btn-primary">
+                <i class="fa fa-save"></i> Save
+            </button>
+            <a class="btn btn-sm btn-default" href="~/Product/Edit/@Model.ProductID">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+

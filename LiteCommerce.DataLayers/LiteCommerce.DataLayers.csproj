@@ -41,10 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAccountDAL.cs" />
     <Compile Include="ICategoryDAL.cs" />
     <Compile Include="ICityDAL.cs" />
     <Compile Include="ICountryDAL.cs" />
+    <Compile Include="ICustomerDAL.cs" />
     <Compile Include="IEmployeeDAL.cs" />
+    <Compile Include="IOrderStatusDAL.cs" />
+    <Compile Include="IOrderDAL.cs" />
+    <Compile Include="IOrderDetailDAL.cs" />
     <Compile Include="IProductDAL.cs" />
     <Compile Include="IShipperDAL.cs" />
     <Compile Include="ISupplierDAL.cs" />
@@ -52,7 +57,13 @@
     <Compile Include="SQLServer\CategoryDAL.cs" />
     <Compile Include="SQLServer\CityDAL.cs" />
     <Compile Include="SQLServer\CountryDAL.cs" />
+    <Compile Include="SQLServer\CustomerAccountDAL.cs" />
+    <Compile Include="SQLServer\CustomerDAL.cs" />
+    <Compile Include="SQLServer\EmployeeAccountDAL.cs" />
     <Compile Include="SQLServer\EmployeeDAL.cs" />
+    <Compile Include="SQLServer\OrderDAL.cs" />
+    <Compile Include="SQLServer\OrderDetailDAL.cs" />
+    <Compile Include="SQLServer\OrderStatusDAL.cs" />
     <Compile Include="SQLServer\ProductDAL.cs" />
     <Compile Include="SQLServer\ShipperDAL.cs" />
     <Compile Include="SQLServer\SupplierDAL.cs" />

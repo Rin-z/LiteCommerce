@@ -38,7 +38,23 @@ namespace LiteCommerce.DataLayers.SQLServer
 
         public int Count(string searchValue)
         {
-            throw new NotImplementedException();
+            int result = 0;
+
+            using (SqlConnection connection = GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"SELECT COUNT(*)
+                                    FROM Shippers
+                                    WHERE ShipperName LIKE @searchValue";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@searchValue", "%" + searchValue + "%");
+                cmd.Connection = connection;
+                result = Convert.ToInt32(cmd.ExecuteScalar());
+
+                connection.Close();
+            }
+
+            return result;
         }
 
         public bool Delete(int ShipperId)
@@ -92,7 +108,41 @@ namespace LiteCommerce.DataLayers.SQLServer
 
         public List<Shipper> List(int page, int pageSize, string searchValue)
         {
-            throw new NotImplementedException();
+            List<Shipper> data = new List<Shipper>();
+
+            using (SqlConnection connection = GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"SELECT *
+                                    FROM
+                                    (
+	                                    SELECT *, ROW_NUMBER() OVER (ORDER BY ShipperID) AS 'STT' FROM Shippers
+	                                    WHERE (ShipperName LIKE @searchValue)
+                                    ) AS B
+                                    WHERE B.STT BETWEEN (@page - 1) * @pageSize + 1 AND @page * @pageSize";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@searchValue", "%" + searchValue + "%");
+                cmd.Parameters.AddWithValue("@page", page);
+                cmd.Parameters.AddWithValue("@pageSize", pageSize);
+                cmd.Connection = connection;
+
+                using (SqlDataReader dbReader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                {
+                    while (dbReader.Read())
+                    {
+                        data.Add(new Shipper()
+                        {
+                            ShipperId = Convert.ToInt32(dbReader["ShipperID"]),
+                            ShipperName = Convert.ToString(dbReader["ShipperName"]),
+                            Phone = Convert.ToString(dbReader["Phone"])
+                        });
+                    }
+                }
+
+                connection.Close();
+            }
+
+            return data;
         }
 
         public bool Update(Shipper data)

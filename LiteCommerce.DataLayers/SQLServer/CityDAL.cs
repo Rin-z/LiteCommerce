@@ -20,7 +20,30 @@ namespace LiteCommerce.DataLayers.SQLServer
 
         public List<City> List()
         {
-            return null;
+            List<City> data = new List<City>();
+
+            using (SqlConnection connection = GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "SELECT * FROM Cities";
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = connection;
+
+                using (SqlDataReader dbReader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                {
+                    while (dbReader.Read())
+                    {
+                        data.Add(new City()
+                        {
+                            CityName = Convert.ToString(dbReader["CityName"]),
+                            CountryName = Convert.ToString(dbReader["CountryName"])
+                        });
+                    }
+                }
+                connection.Close();
+            }
+
+            return data;
         }
 
 

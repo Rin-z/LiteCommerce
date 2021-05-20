@@ -1,0 +1,85 @@
+﻿@model LiteCommerce.DomainModels.Customer
+@{
+
+}
+
+<div class="box box-primary">
+    <form method="post" action="~/Customer/Save">
+        @Html.HiddenFor(m => m.CustomerID)
+
+        <div class="form-group">
+            <label>Tên Khach Hang:</label>
+            @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control", @autofocus = "autofocus" })
+            <span>@Html.ValidationMessage("CustomerName", new { @class = "text-danger" })</span>
+            @*<input type="text" class="form-control" id="SuppliersName" name="SuppliersName" autofocus>*@
+        </div>
+        <div class="form-group">
+            <label>Tên Liên Lạc:</label>
+            <input type="text" class="form-control" name="ContactName" value="@Model.ContactName" placeholder="ContactName">
+            <span>@Html.ValidationMessage("ContactName", new { @class = "text-danger" })</span>
+        </div>
+
+        <div class="form-group">
+            <label>Địa Chỉ:</label>
+            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Thành Phố:</label>
+                    @Html.DropDownListFor(m => m.Country, SelectListHelper.Countries(), new { @class = "form-control" })
+
+                    @*<select class="form-control" name="city" id="city">
+                            <option>Mặc Định</option>
+                            <option>Huế</option>
+                        </select>*@
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Quốc Gia:</label>
+                    @Html.DropDownListFor(m => m.City, SelectListHelper.Cities(), new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Mã Bưu Chính:</label>
+            @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label>Email:</label>
+            <input type="text" class="form-control" id="Email" name="Email" value="@Model.Email">
+        </div>
+
+        @*<div class="form-group">
+                <label>Password:</label>
+                <input type="password" class="form-control" id="Password" name="Password" value="@Model.Password">
+            </div>*@
+
+
+        @*Save Giu Lieu*@
+
+        <div class="row">
+            <div class="col-lg-6">
+                <button type="submit" class="btn btn-info">
+                    <i class="fa fa-save"></i>
+                    Lưu dữ liệu
+                </button>
+            </div>
+
+            <div class="col-lg-6 text-right">
+
+                <a href="~/Customer" class="btn btn-danger" style="color:#ffffff">
+                    <i class="fa fa-defaut"></i> Hủy
+                </a>
+
+            </div>
+        </div>
+
+    </form>
+</div>

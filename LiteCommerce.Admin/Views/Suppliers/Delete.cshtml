@@ -1,40 +1,40 @@
-﻿
+﻿@model LiteCommerce.DomainModels.Supplier
 @{
     ViewBag.Title = "Xác Nhận Xóa";
 }
 
 
 
-<form class="form-horizontal" method="post" action="~/Suppliers/Delete/1234">
+<form class="form-horizontal" method="post" action="~/Suppliers/Delete/@Model.SupplierID">
     <div class="form-group">
         <label class="col-sm-2 control-label">Tên nhà cung cấp: </label>
         <div class="col-sm-10">
-            <p class="form-control-static">Nord-Ost-Fisch Handelsgesellschaft mbH</p>
+            <p class="form-control-static">@Model.SupplierName</p>
         </div>
 
         <label class="col-sm-2 control-label">Tên giao dịch: </label>
         <div class="col-sm-10">
-            <p class="form-control-static">Sven Petersen</p>
+            <p class="form-control-static">@Model.ContactName</p>
         </div>
         <label class="col-sm-2 control-label">Địa chi liên hệ: </label>
         <div class="col-sm-10">
-            <p class="form-control-static">Frahmredder 112a</p>
+            <p class="form-control-static">@Model.Address-@Model.City-@Model.Country</p>
         </div>
         <label class="col-sm-2 control-label">Quốc gia: </label>
         <div class="col-sm-4">
-            <p class="form-control-static">Germany</p>
+            <p class="form-control-static">@Model.Country</p>
         </div>
         <label class="col-sm-2 control-label">Thành phố: </label>
         <div class="col-sm-4">
-            <p class="form-control-static">Cuxhaven</p>
+            <p class="form-control-static">@Model.City</p>
         </div>
         <label class="col-sm-2 control-label">Mã bưu chính: </label>
         <div class="col-sm-4">
-            <p class="form-control-static">27478</p>
+            <p class="form-control-static">@Model.PostalCode</p>
         </div>
         <label class="col-sm-2 control-label">Điện thoại: </label>
         <div class="col-sm-4">
-            <p class="form-control-static">(04721) 8713</p>
+            <p class="form-control-static">@Model.Phone</p>
         </div>
     </div>
 

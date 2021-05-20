@@ -21,7 +21,7 @@ namespace LiteCommerce.Admin.Models
             {
                 int v = RowCount / PageSize;
                 if (RowCount % PageSize > 0)
-                    v = +1;
+                    v += 1;
                 return v;
             }
         }

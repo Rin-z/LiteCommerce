@@ -38,7 +38,23 @@ namespace LiteCommerce.DataLayers.SQLServer
 
         public int Count(string searchValue)
         {
-            throw new NotImplementedException();
+            int result = 0;
+
+            using (SqlConnection connection = GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"SELECT COUNT(*)
+                                    FROM Categories
+                                    WHERE CategoryName LIKE @searchValue";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@searchValue", "%" + searchValue + "%");
+                cmd.Connection = connection;
+                result = Convert.ToInt32(cmd.ExecuteScalar());
+
+                connection.Close();
+            }
+
+            return result;
         }
 
         public bool Delete(int CategoryID)
@@ -92,7 +108,41 @@ namespace LiteCommerce.DataLayers.SQLServer
 
         public List<Category> List(int page, int pageSize, string searchValue)
         {
-            throw new NotImplementedException();
+            List<Category> data = new List<Category>();
+
+            using (SqlConnection connection = GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"SELECT *
+                                    FROM
+                                    (
+	                                    SELECT *, ROW_NUMBER() OVER (ORDER BY CategoryID) AS 'STT' FROM Categories
+	                                    WHERE (CategoryName LIKE @searchValue)
+                                    ) AS B
+                                    WHERE B.STT BETWEEN (@page - 1) * @pageSize + 1 AND @page * @pageSize";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@searchValue", "%" + searchValue + "%");
+                cmd.Parameters.AddWithValue("@page", page);
+                cmd.Parameters.AddWithValue("@pageSize", pageSize);
+                cmd.Connection = connection;
+
+                using (SqlDataReader dbReader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                {
+                    while (dbReader.Read())
+                    {
+                        data.Add(new Category()
+                        {
+                            CategoryID = Convert.ToInt32(dbReader["CategoryID"]),
+                            CategoryName = Convert.ToString(dbReader["CategoryName"]),
+                            Description = Convert.ToString(dbReader["Description"])
+                        });
+                    }
+                }
+
+                connection.Close();
+            }
+
+            return data;
         }
 
         public bool Update(Category data)

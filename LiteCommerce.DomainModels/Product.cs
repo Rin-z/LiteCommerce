@@ -8,20 +8,8 @@ namespace LiteCommerce.DomainModels
 {
     public class Product
     {
-        public Product()
-        {
-        }
 
-        public Product(int productID, string productName, int supplierID, int categoryID, string unit, string price, string photo)
-        {
-            ProductID = productID;
-            ProductName = productName;
-            SupplierID = supplierID;
-            CategoryID = categoryID;
-            Unit = unit;
-            Price = price;
-            Photo = photo;
-        }
+
 
         /// <summary>
         /// 
@@ -53,12 +41,19 @@ namespace LiteCommerce.DomainModels
         /// <summary>
         /// 
         /// </summary>
-        public string Price { get; set; }
+        public decimal Price { get; set; }
         
         /// <summary>
         /// 
         /// </summary>
         public string Photo { get; set; }
 
+    }
+
+    public class ProductEX : Product
+    {
+        public List<ProductAttribute> Attributes { get; set; }
+       
+        public List<ProductGallery> Galleries { get; set; }
     }
 }

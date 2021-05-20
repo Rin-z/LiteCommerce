@@ -1,0 +1,71 @@
+﻿@model LiteCommerce.DomainModels.Employee
+@{
+    ViewBag.Title = "Input";
+}
+
+<div class="box box-primary">
+    <form role="form" action="~/Employees/Input" method="post" enctype="multipart/form-data">
+        <div class="box-header text-right">
+            <a href="~/Employee">Back to List</a>
+        </div>
+        <div class="box-body">
+            <input type="hidden" name="EmployeeID" value="@Model.EmployeeID" />
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    <label>First Name: @Html.ValidationMessage("FirstName", new { @class = "text-danger" })</label>
+                    <input type="text" class="form-control" placeholder="First Name" name="FirstName" value="@Model.FirstName">
+                </div>
+                <div class="col-sm-4">
+                    <label>Last Name: @Html.ValidationMessage("LastName", new { @class = "text-danger" })</label>
+                    <input type="text" class="form-control" placeholder="Last Name" value="@Model.LastName" name="LastName">
+                </div>
+            </div>
+
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <label>BrithDate: @Html.ValidationMessage("BirthDate", new { @class = "text-danger" }) </label>
+                    <input type="text" class="form-control" placeholder="Ex : 2020/08/08" value="@Model.BirthDate" name="BirthDate">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <label>Email:</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-envelope"></i>
+                        </div>
+                        <input type="email" class="form-control" name="Email" value="@Model.Email">
+                    </div>
+                </div>
+ 
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <label>Photo Path:</label>
+                    @Html.HiddenFor(m => m.Photo)
+                    <input type="file" class="form-control" placeholder="Photo Path" name="uploadFile" accept="image/png , image/jpeg  ,image/jpg">
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label>Notes:</label>
+                <textarea class="form-control" placeholder="Enter your notes" name="Notes">@Model.Notes</textarea>
+            </div>
+            <input type="hidden" name="Password" value="@Model.Password" />
+            <div>@Html.ValidationMessage("")</div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <button type="submit" class="btn btn-sm btn-primary">
+                <i class="fa fa-save"></i> Save
+            </button>
+            <a class="btn btn-sm btn-default" href="~/Supplier">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+

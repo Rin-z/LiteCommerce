@@ -22,6 +22,9 @@ namespace LiteCommerce.Admin
             //Khoi tao cac lop tac nghiep
             string cnStr = ConfigurationManager.ConnectionStrings["LiteCommerceDB"].ConnectionString;
             DataService.Init(DatabaseTypes.SQLServer, cnStr);
+            ProductService.Init(DatabaseTypes.SQLServer, cnStr);
+            AccountService.Init(DatabaseTypes.SQLServer, cnStr, AccountTypes.Employee);
+            OrderService.Init(DatabaseTypes.SQLServer, cnStr);
 
         }
     }

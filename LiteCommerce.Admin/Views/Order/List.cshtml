@@ -1,0 +1,69 @@
+﻿@model LiteCommerce.Admin.Models.OrderPainatonQueryResult
+@{
+    Layout = null;
+}
+
+<div class="text-left">
+    <p>
+        Có tất cả <strong>@Model.RowCount</strong> mặt hàng.
+        Bạn đang ở trang <strong>@Model.Page</strong> trên tổng số <strong>@Model.PageCount</strong> trang.
+    </p>
+</div>
+
+<div class="box box-primary">
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Mã đơn hàng</th>
+                <th>Thời gian đặt hàng</th>
+                <th>Thời gian chấp nhận đơn hàng</th>
+                <th>Thời gian giao hàng</th>
+                <th>Thời gian hoàn thành</th>
+                <th>
+                    <a href="~/Order/Add" class="btn btn-xs btn-primary">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Data)
+            {
+                <tr>
+                    <td>
+                        <a href="~/Order/Detail/@item.OrderID">@item.OrderID</a>
+                    </td>
+                    <td>@item.OrderTime</td>
+                    <td>@item.AcceptTime</td>
+                    <td>@item.ShippedTime</td>
+                    <td>@item.FinishedTime</td>
+                    <td>
+                        
+                        <a href="~/Order/Edit" class="btn btn-xs btn-info"><i class="fa fa-edit"></i></a>
+                 
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="text-center">
+        <ul class="pagination">
+            <li><a href="javascript:;" onclick="getOrderHistory(1)">&lt;&lt;</a></li>
+
+            @for (int i = Math.Max(1, Model.Page - 2); i <= Math.Min(Model.PageCount, Model.Page + 2); i++)
+            {
+                if (i == Model.Page)
+                {
+                    <li class="active"><a href="#">@i</a></li>
+                }
+                else
+                {
+                    <li><a href="javascript:;" onclick="getOrderHistory(@i)">@i</a></li>
+                }
+            }
+            <li><a href="javascript:;" onclick="getProducts(@Model.PageCount)">&gt;&gt;</a></li>
+
+        </ul>
+    </div>
+    </div>

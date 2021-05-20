@@ -1,0 +1,71 @@
+﻿@model LiteCommerce.Admin.Models.EmployeePaginationQueryResult
+@{
+    Layout = null;
+    int i = 0;
+
+}
+
+
+
+
+<div class="container-fluid">
+    <div class="text-left">
+        <p>There are <b>@Model.RowCount</b> Employees .<b>Page @string.Format("{0}/{1}", @Model.Page, @Model.PageCount)</b></p>
+    </div>
+    <div class="box box-primary">
+        <div class="box-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên</th>
+                        <th>Email</th>
+                        <th>Ngày Sinh</th>
+                        <th class="text-right">
+                            <a href="~/Employees/Input" class="btn btn-primary" style="color:#fff"><i class="fa fa-plus"></i></a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Data)
+                    {
+                        <tr>
+                            <td>@(++i +(Model.Page-1)*(Model.PageSize))</td>
+                            <td>@item.LastName</td>
+                            <td>@item.Email</td>
+                            <td>@string.Format("{0:dd/MM/yyyy}", @item.BirthDate)</td>
+                            <td class="text-right">
+
+                                <a href="~/Employees/Input/@item.EmployeeID" class="btn btn-info"><i class="fa fa-edit"></i></a>
+
+                                <a href="~/Employees/Delete/@item.EmployeeID" class="btn btn-danger"><i class="ion-android-delete"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center">
+            <ul class="pagination">
+                <li><a href="javascripts:;" onclick="getEmployees(@Model.Page)">«</a></li>
+
+                @for (i = 1; i <= Model.PageCount; i++)
+                {
+
+                    if (i == Model.Page)
+                    {
+                        <li class="active"><a href="javascripts:;">@i</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="javascripts:;" onclick="getEmployees(@i)">@i</a></li>
+                    }
+                }
+                <li><a href="javascripts:;" onclick="getEmployees(@Model.PageCount)">»</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+

@@ -17,6 +17,9 @@ namespace LiteCommerce.BusinessLayers
         private static ICityDAL CityDB;
         private static ISupplierDAL SupplierDB;
         private static IEmployeeDAL EmployeeDB;
+        private static ICustomerDAL CustomerDB;
+        private static IShipperDAL ShipperDB;
+        private static ICategoryDAL CategoryDB;
 
         /// <summary>
         /// Khoi Tao Lop tac nghiep 
@@ -31,6 +34,10 @@ namespace LiteCommerce.BusinessLayers
                     CountryDB = new DataLayers.SQLServer.CountryDAL(connectionString);
                     CityDB = new DataLayers.SQLServer.CityDAL(connectionString);
                     SupplierDB = new DataLayers.SQLServer.SupplierDAL(connectionString);
+                    EmployeeDB = new DataLayers.SQLServer.EmployeeDAL(connectionString);
+                    CustomerDB = new DataLayers.SQLServer.CustomerDAL(connectionString);
+                    ShipperDB = new DataLayers.SQLServer.ShipperDAL(connectionString);
+                    CategoryDB = new DataLayers.SQLServer.CategoryDAL(connectionString);
                     break;
                 case DatabaseTypes.FakeDB:
                     break;
@@ -47,6 +54,7 @@ namespace LiteCommerce.BusinessLayers
         {
             return CountryDB.List();
         }
+
 
         /// <summary>
         /// Lay danh sach tat cac cac thanh pho
@@ -89,6 +97,10 @@ namespace LiteCommerce.BusinessLayers
             return SupplierDB.List(page, pageSize, searchValue);
         }
 
+        public static List<Supplier> ListOfSupplier()
+        {
+            return SupplierDB.List(1, 100, "");
+        }
         /// <summary>
         /// hien thi 1 nha cung cap
         /// </summary>
@@ -97,6 +109,11 @@ namespace LiteCommerce.BusinessLayers
         public static Supplier GetSupplier(int supplierID)
         {
             return SupplierDB.Get(supplierID);
+        }
+
+        public static IEnumerable<object> ListOfCustomerID()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -144,7 +161,7 @@ namespace LiteCommerce.BusinessLayers
             if (page <= 0)
                 page = 1;
             if (pageSize <= 0)
-                pageSize = 25;
+                pageSize = 5;
             rowCount = EmployeeDB.Count(searchValue);
             return EmployeeDB.List(page, pageSize, searchValue);
         }
@@ -191,6 +208,123 @@ namespace LiteCommerce.BusinessLayers
         }
 
 
+       
+
+        /// <summary>
+        /// Khach Hang
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="searchValue"></param>
+        /// <param name="rowCount"></param>
+        /// <returns></returns>
+        public static List<Customer> ListCustomers(int page, int pageSize, string searchValue, out int rowCount)
+        {
+            if (page <= 0)
+                page = 1;
+            if (pageSize <= 0)
+                pageSize = 25;
+
+            rowCount = CustomerDB.Count(searchValue);
+            return CustomerDB.List(page, pageSize, searchValue);
+        }
+
+        public static Customer GetCustomer(int customerID)
+        {
+            return CustomerDB.Get(customerID);
+        }
+
+        public static int  AddCustomer(Customer data)
+        {
+            return CustomerDB.Add(data);
+        }
+
+        public static bool UpdateCustomer(Customer data)
+        {
+            return CustomerDB.Update(data);
+        }
+        
+        public static bool DeleteCustomer(int customerID)
+        {
+            return CustomerDB.Delete(customerID);
+        }
+
+
+
+        /// <summary>
+        /// Loai Hang
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="searchValue"></param>
+        /// <param name="rowCount"></param>
+        /// <returns></returns>
+        public static List<Category> ListCategories(int page, int pageSize, string searchValue, out int rowCount)
+        {
+            rowCount = CategoryDB.Count(searchValue);
+            return CategoryDB.List(page, pageSize, searchValue);
+        }
+
+
+        public static List<Category> ListOfCategories()
+        {
+            return CategoryDB.List(1,100,"");
+        }
+
+        public static Category GetCategory(int categoryID)
+        {
+            return CategoryDB.Get(categoryID);
+        }
+
+        public static int AddCategory(Category data)
+        {
+            return CategoryDB.Add(data);
+        }
+
+        public static bool UpdateCategory(Category data)
+        {
+            return CategoryDB.Update(data);
+        }
+
+        public static bool DeleteCategory(int categoryID)
+        {
+            return CategoryDB.Delete(categoryID);
+        }
+
+
+        /// <summary>
+        /// Shipper
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="searchValue"></param>
+        /// <param name="rowCount"></param>
+        /// <returns></returns>
+        public static List<Shipper> ListShippers(int page, int pageSize, string searchValue, out int rowCount)
+        {
+            rowCount = ShipperDB.Count(searchValue);
+            return ShipperDB.List(page, pageSize, searchValue);
+        }
+
+        public static Shipper GetShipper(int shipperID)
+        {
+            return ShipperDB.Get(shipperID);
+        }
+
+        public static int AddShipper(Shipper data)
+        {
+            return ShipperDB.Add(data);
+        }
+
+        public static bool UpdateShipper(Shipper data)
+        {
+            return ShipperDB.Update(data);
+        }
+
+        public static bool DeleteShipper(int shipperID)
+        {
+            return ShipperDB.Delete(shipperID);
+        }
 
 
     }

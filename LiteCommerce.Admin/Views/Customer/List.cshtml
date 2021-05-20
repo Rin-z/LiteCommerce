@@ -1,0 +1,101 @@
+﻿@model LiteCommerce.Admin.Models.CustomerPaginationQueryResult
+
+
+@{
+    Layout = null;
+    int stt=0;
+}
+
+
+<div class="text-left">
+    <p>There are <b>@Model.RowCount</b> Customers .<b>Page @string.Format("{0}/{1}", @Model.Page, @Model.PageCount)</b></p>
+</div>
+<div class="box box-primary">
+    <div class="box-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên khach hang</th>
+                    <th>Tên Giao Dịch</th>
+                    <th>Địa Chỉ</th>
+                    <th>Mã Vùng</th>
+
+                    <th class="text-right">
+
+                        <a class="btn btn-primary" href="~/Customer/Add" style="color:#fff"><i class="fa fa-plus"></i></a>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model.Data)
+                {
+
+                    <tr>
+                        <td name="id" value="@item.CustomerID">@(++stt + (Model.Page-1)*(Model.PageSize))</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.ContactName</td>
+                        <td>
+                            <p>@item.Address</p>
+                            <p>@item.City - @item.Country </p>
+                        </td>
+
+                        <td>@item.PostalCode</td>
+                        <td class="text-right">
+                            <a href="~/Customer/Edit/@item.CustomerID" class="btn btn-info"><i class="fa fa-edit"></i></a>
+                            <a class="btn btn-danger" href="~/Customer/Delete/@item.CustomerID"><fa class="ion-android-delete"></fa></a>
+                            @*<button type="button" id="delete-btn" class="btn btn-danger" data-toggle="modal" data-target="#modal-default" ><i class="fa ion-android-delete"></i>a</button>*@
+                            <div class="modal fade" id="modal-default">
+                                <div class="modal-dialog modal-sm">
+
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <h4 class="modal-title">Delete ? </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Do you want delete this <span id="count"></span> employees ?</p>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                            <button class="btn btn-danger"><a href="~/Customer/Delete/@item.CustomerID"><fa class="ion-android-delete"></fa></a></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="text-center">
+        <ul class="pagination">
+            <li><a href="javascripts:;" onclick="getCustomers(@Model.Page)">«</a></li>
+
+            @for (int i = 1; i <= Model.PageCount; i++)
+            {
+
+                if (i == Model.Page)
+                {
+                    <li class="active"><a href="javascripts:;">@i</a></li>
+                }
+                else
+                {
+                    <li><a href="javascripts:;" onclick="getCustomers(@i)">@i</a></li>
+                }
+            }
+            <li><a href="javascripts:;" onclick="getCustomers(@Model.PageCount)">»</a></li>
+        </ul>
+    </div>
+</div>

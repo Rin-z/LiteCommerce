@@ -2,77 +2,57 @@
 
 @{
     ViewBag.Title = "Danh Sách Nhân Viên";
+    int i = 0;
 }
 
 
 
 @*form để tìm kiêm*@
-<div class="container-fluid">
-    <form>
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Nhập tên cần tìm kiếm..." value="@Model.SearchValue">
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="submit">
-                    <i class="glyphicon glyphicon-search"></i>
-                </button>
+<div class="box box-default">
+    <div class="box-body">
+        <form id="formSearchInput">
+            <div class="input-group">
+                <input type="text" class="form-control" name="searchValue" placeholder="Nhập tên cần tìm kiếm...">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </div>
             </div>
-        </div>
-    </form>
-
-</div>
-
-
-
-
-<div class="container-fluid">
-    <div class="text-left">
-        <p>Có tất <strong>@Model.RowCount</strong> Nhân Viên . Các bạn đang ở trang <strong>@Model.page</strong> trong <strong>@Model.PageSize</strong>  trang.</p>
-    </div>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>STT</th>
-                <th>Tên</th>
-                <th>Email</th>
-                <th>Ngày Sinh</th>
-                <th class="text-right">
-                    <a href="~/Employees/Add" class="btn btn-primary" style="color:#fff"><i class="fa fa-plus"></i></a>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Data)
-            {
-                <tr>
-                    <td>@item.EmployeeID</td>
-                    <td>@item.LastName</td>
-                    <td>@item.Email</td>
-                    <td>@item.BirthDate</td>
-                    <td class="text-right">
-                        <a href="~/Employees/Detail/@item.EmployeeID" class="btn btn-bitbucket"><i class="fa fa-info"></i></a>
-                        <a href="~/Employees/Edit/@item.EmployeeID" class="btn btn-info"><i class="fa fa-edit"></i></a>
-                        <a type="button" data-toggle="modal" data-target="#myModal" class="btn btn-danger"><i class="fa ion-android-delete"></i></a>
-                        @{ Html.RenderPartial("~/Views/Employees/Delete.cshtml");}
-
-                    </td>
-                </tr>
-            }
-        </tbody>
-
-
-
-    </table>
-    <div class="text-center">
-        <ul class="pagination">
-            <li><a href="#"><<</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">>></a></li>
-        </ul>
+        </form>
     </div>
 </div>
+
+
+<!-- Hiển thị kết quả tìm kiếm -->
+<div id="listEmployees" class="container-fluid"></div>
+
+
+
+@section scripts {
+    <script>
+        function getEmployees(page) {
+            var searchCondition = $("#formSearchInput").serializeArray();
+            searchCondition.push({ name: "page", value: page });
+            $.ajax({
+                url: "/Employees/List",
+                type: "POST",
+                data: searchCondition,
+                success: function (data) {
+                    $("#listEmployees").empty();
+                    $("#listEmployees").html(data);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            getEmployees(1);
+            $("#formSearchInput").submit(function (e) {
+                e.preventDefault();
+                getEmployees(1);
+            });
+        });
+    </script>
+}
 
 

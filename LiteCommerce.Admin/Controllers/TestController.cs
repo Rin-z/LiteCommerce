@@ -18,20 +18,18 @@ namespace LiteCommerce.Admin.Controllers
         {
             
             string connectionString = "server=.;user id = sa;password=123;database=LiteCommerceDB";
-            var dal = new LiteCommerce.DataLayers.SQLServer.SupplierDAL(connectionString);
-
-            Product data = new Product()
+            var dal = new LiteCommerce.DataLayers.SQLServer.OrderDAL(connectionString);
+            
+            Order data = new Order()
             {
-                ProductID=78,
-                ProductName = "Desk",
-                SupplierID =2,
-                CategoryID=2,
-                Unit= "10 boxes x 20 bags",
-                Price ="18.00",
-                Photo = "http://dummyimage.com/250x250.png/5fa2dd/ffffff&text=Product"
+                
+
+
+
+
             };
 
-            return Json(dal.List(1,5, "B"), JsonRequestBehavior.AllowGet);
+            return Json(dal.Add(data), JsonRequestBehavior.AllowGet);
 
         }
     }

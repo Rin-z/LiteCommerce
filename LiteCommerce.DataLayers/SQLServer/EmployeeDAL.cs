@@ -24,8 +24,8 @@ namespace LiteCommerce.DataLayers.SQLServer
             using (SqlConnection connection = GetConnection())
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "insert into Employees (LastName,FirstName,BirthDate,Photo,Notes,Email,PassWord)" +
-                "values(@LastName,@FirstName,@BirthDate,@Photo,@Notes,@Email,@PassWord)Select @@IDENTITY";
+                cmd.CommandText = "insert into Employees (LastName,FirstName,BirthDate,Photo,Notes,Email)" +
+                "values(@LastName,@FirstName,@BirthDate,@Photo,@Notes,@Email)Select @@IDENTITY";
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@LastName", data.LastName);
                 cmd.Parameters.AddWithValue("@FirstName", data.FirstName);
@@ -33,7 +33,7 @@ namespace LiteCommerce.DataLayers.SQLServer
                 cmd.Parameters.AddWithValue("@Photo", data.Photo);
                 cmd.Parameters.AddWithValue("@Notes", data.Notes);
                 cmd.Parameters.AddWithValue("@Email", data.Email);
-                cmd.Parameters.AddWithValue("@Password", data.Password);
+              
                 cmd.Connection = connection;
                 EmployeeID = Convert.ToInt32(cmd.ExecuteScalar());
                 connection.Close();
@@ -44,11 +44,18 @@ namespace LiteCommerce.DataLayers.SQLServer
         public int Count(string searchValue)
         {
             int count = 0;
+
+            if(!string.IsNullOrEmpty(searchValue))
+                searchValue = "%" + searchValue + "%";
+
             using (SqlConnection connection = GetConnection())
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "SELECT COUNT(*) searchValue FROM Employees";
-                count = Convert.ToInt32(cmd.ExecuteNonQuery());
+                cmd.CommandText = "SELECT COUNT(*) FROM Employees where @searchValue=''or LastName like @searchValue or FirstName like @searchValue";
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = connection;
+                cmd.Parameters.AddWithValue("@searchValue", searchValue);
+                count = Convert.ToInt32(cmd.ExecuteScalar());
                 connection.Close();
             }
             return count;
@@ -110,7 +117,46 @@ namespace LiteCommerce.DataLayers.SQLServer
 
         public List<Employee> List(int page, int pageSize, string searchValue)
         {
-            throw new NotImplementedException();
+            List<Employee> data = new List<Employee>();
+            if (!string.IsNullOrEmpty(searchValue))
+                searchValue = "%" + searchValue + "%";
+
+            using (SqlConnection connection = GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"select * from (
+	                                    select ROW_NUMBER() over (order by FirstName) as RowNumber,*
+			                                    from Employees 
+			                                    where (@searchValue='' or (LastName like @searchValue) or(FirstName like @searchValue) or(Email like @searchValue))
+                                    ) as t 
+                                    where t.RowNumber between (@page-1)*(@pageSize+1) and @page*@pageSize 
+                                    order by t.RowNumber;";
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = connection;
+                cmd.Parameters.AddWithValue("@searchValue", searchValue);
+                cmd.Parameters.AddWithValue("@page", page);
+                cmd.Parameters.AddWithValue("@pageSize", pageSize);
+
+                using(SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                {
+                    while (dataReader.Read())
+                    {
+                        data.Add(new Employee()
+                        {
+                            EmployeeID = Convert.ToInt32(dataReader["EmployeeID"]),
+                            LastName = Convert.ToString(dataReader["LastName"]),
+                            FirstName = Convert.ToString(dataReader["FirstName"]),
+                            BirthDate = Convert.ToDateTime(dataReader["BirthDate"]),
+                            Email = Convert.ToString(dataReader["Email"]),
+                            Notes = Convert.ToString(dataReader["Notes"]),
+                            Password = Convert.ToString(dataReader["Password"]),
+                            Photo = Convert.ToString(dataReader["Photo"])
+                        });
+                    }
+                }
+                connection.Close();
+            }
+            return data;
         }
 
         public bool Update(Employee data)

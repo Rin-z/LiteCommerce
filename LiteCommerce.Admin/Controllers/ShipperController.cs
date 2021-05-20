@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LiteCommerce.BusinessLayers;
+using LiteCommerce.DomainModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,34 +8,150 @@ using System.Web.Mvc;
 
 namespace LiteCommerce.Admin.Controllers
 {
-    public class ShipperController : Controller
+/*    [Authorize(Roles = WebUserRoles.ACCOUNTANT)]*/
+    [Authorize]
+    public class ShipperController : BaseController
     {
-        // GET: Shipper
+
         public ActionResult Index()
         {
             return View();
         }
 
-
-        public ActionResult Add()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult List(int page = 1, string searchValue = "")
         {
-            return View("Index");
+            int pageSize = 10;
+            int rowCount = 0;
+            //Muốn sử dụng out bắt buộc phải chỉ định giá trị trước khi sử dụng
+            List<Shipper> listOfShipper = DataService.ListShippers(page, pageSize, searchValue, out rowCount);
+            var model = new Models.ShipperPaginationQueryResult()
+            {
+                Page = page,
+                PageSize = pageSize,
+                RowCount = rowCount,
+                SearchValue= searchValue,
+                Data = listOfShipper
+            };
+            return View(model);
         }
 
-        public ActionResult Edit(string Id)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Input(string id = "")
         {
-            return View("Index");
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    ViewBag.Title = "Create new a Shipper";
+                    Shipper newShipper = new Shipper()
+                    {
+                        ShipperId = 0 // do id tu sinh
+                    };
+                    return View(newShipper);
+                }
+                else
+                {
+                    ViewBag.Title = "Edit a Shipper";
+                    Shipper editShipper = DataService.GetShipper(Convert.ToInt32(id));
+                    if (editShipper == null)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    return View(editShipper);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                // ko nen lam dieu nay => tranparent error
+                return Content(ex.Message + " : " + ex.StackTrace);
+            }
         }
 
-        public ActionResult Delete()
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="shipperIDs"></param>
+        /// <returns></returns>
+ 
+        public ActionResult Delete(int id = 0)
         {
-            return RedirectToAction("Index", "Shipper");
+            if (DataService.DeleteShipper(id) == true)
+            {
+                SetAlert("Delete shippers success !", "success");
+            }
+            else
+            {
+                SetAlert("Delete shippers fail, Because of the associated constraints  !", "danger");
+            }
+
+            return RedirectToAction("Index");
         }
 
 
-        public ActionResult Save()
-        {
-            return RedirectToAction("Index", "Shipper");
+        /// <summary>
+        /// su dung ten lop lam tham so do cac fiel trung 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Input(Shipper model)
+        {   // lam that nho them try cacht
+
+            // : Kiểm tra tính hợp lệ của dữ liệu được nhập
+            if (string.IsNullOrEmpty(model.ShipperName))
+            {
+                ModelState.AddModelError("ShipperName", "*");
+            }
+
+            if (string.IsNullOrEmpty(model.Phone))
+            {
+                ModelState.AddModelError("Phone", "*");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                if (model.ShipperId == 0)
+                {
+                    ViewBag.Title = "Create new a shipper";
+                    SetAlert("Add new Shipper Fail , Check again!", "warning");
+                }
+
+                else
+                {
+                    ViewBag.Title = "Update a shipper";
+                    SetAlert("Update Shipper Fail , Check again!", "warning");
+                }
+
+                return View(model);
+            }
+
+            //: Lưu dữ liệu vào DB
+            if (model.ShipperId == 0)
+            {
+                SetAlert("Add new Shipper success !", "success");
+                DataService.AddShipper(model);
+            }
+            else
+            {
+                SetAlert("Update Shipper success !", "success");
+                DataService.UpdateShipper(model);
+            }
+
+            return RedirectToAction("Index");
+
         }
+
+
     }
 }
